@@ -1,40 +1,30 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
 
-var course = ["course1", "course2", "course3"]
+var course = ["course1", "course2", "course3"];
 
-app.get('/', (req, res) => {
-    res.status(200).json({
-        message: 'RockED Assignment'
-    })
-})
+const lessonRoutes = require('./api/lesson');
+const lectureRoutes = require('./api/lecture');
+const takeawayRoutes = require('./api/takeaway');
 
-//courses apis
-app.get('/courses', (req, res) => {
-    res.status(200).json({
-        courses : course
-    })
-})
+app.use(express.json());
+app.use(express.urlencoded({
+    extended: true
+  }));
 
-app.get('/courses/:id', (req, res) => {
-    const id = req.params.id;
-    console.log(id);
-    res.status(200).json(course[id]);
-})
+app.use('/lesson', lessonRoutes);
+app.use('/lecture', lectureRoutes);
+app.use('/takeaway', takeawayRoutes);
 
-//lessons apis
 
-app.get('/lesson/:id', (req, res) => {
-    const id = req.params.id;
-    console.log("lesson id: " + id);
-    res.status(200).json(id);
-})
 
 app.use((req, res) => {
     res.status(404).json({
         message: 'Not Found'
     });
 });
+
 
 
 module.exports = app;
