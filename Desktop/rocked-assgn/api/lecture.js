@@ -1,18 +1,48 @@
 const express = require('express');
 const router = express.Router();
 
+const lecture = require('../models/lecture');
+const lesson = require('../models/lesson')
+const mongoose = require('mongoose');
 
 router.get('/:id', (req, res) => {
-    res.status(200).json({
-        message: 'Handling GET requusts for a lecture/course',
-        id: req.params.id
+
+    const lectureId = req.params.id;
+    lecture.findOne({ _id: lectureId }).populate('parts', 'title subTitle').exec(function(err, lecture) {
+        if(err) {
+            res.status(500);
+        }
+        res.status(200).json(lecture);
     })
 });
 
 router.post('/', (req, res) => {
-    res.status(200).json({
-        message: 'Handling POST requusts for a lecture/course'
-    })
+
+    const lectureCreated = new lecture({
+        _id: new mongoose.Types.ObjectId,
+        courseOverview: req.body.courseOverview,
+        parts: req.body.parts
+    });
+
+    lectureCreated.save().then((result) => {
+        res.send(result);
+    }).catch((err) => {
+        console.log(err);
+    });
+});
+
+router.patch('/', (req, res) => {
+    console.log(req);
+    var query = {'lecture': req.body.lectureId};
+
+    lecture.findOne(query, function(err, doc) {
+        if (err) return res.send(500, {error: err});
+        doc.parts.push(req.body.lessonId);
+        console.log(doc);
+        doc.save();
+        return res.send('Succesfully saved.');
+    });
+
 });
 
 
