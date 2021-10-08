@@ -28,17 +28,34 @@ mongoose: 6.0.9
 ## Course/Lecture APIs
 >**Course_Lecture POST** --> To post courses which contain lessons, Lectures contain course overview(courseOverview) and lessons(parts)
 
+>**Fields** required for creating Course -->
+> courseOverview -
+> parts -
+    
 >**Course_Lecture GET** --> To get courses details
 
 >**Course_Lecture PATCH** --> To modify existing course and add more lessons
+>**Fields** required for editing **Course** -->
+> lectureId -
+> lessonId -
 
 ## Lesson APIs
 >**lesson POST** --> To post lessons, Lessons contain title(title), subtitle(subTitle), description(description), video URL(videoUrl)
 
+>**Fields** required for posting **Lesson** -->
+> title -
+> subTitle -
+> description -
+> videoUrl -
+ 
 >**lesson GET** --> To get lesson details
 
 ## Takeaway APIs
 >**takeaway POST** --> To post takeaways to be fetched after completing a particular lesson, Takeeaways contain lessonId(lesson) and takeaway(conclusion)
+
+>**Fields** required for posting **Takeaway** -->
+> lesson -
+> conclusion -
 
 >**takeaway GET** --> To get takeaway for a particular lesson
 
